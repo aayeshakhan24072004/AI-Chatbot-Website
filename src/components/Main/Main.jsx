@@ -4,20 +4,15 @@ import {assets} from '../../assets/assets'
 import { Context } from '../../context/context'
 const Main = () => {
 
-    const {onSent,recentPrompt,showResult,loading,resultData,setInput,input} = useContext(Context)
+const {onSent,recentPrompt,showResult,resultData,setInput,input} = useContext(Context)
 
     //to send the prompt by pressing enter key
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && input) {
-          onSent();
+          onSent(input);
         }
     };
-      // function to handle card click
-    const handleCardClick = (prompt) => {
-        setInput(prompt);
-        onSent(prompt);
-    };
-
+   
   return (
     <div className='main'>
         <div className="nav">
@@ -26,7 +21,6 @@ const Main = () => {
         </div>
         
         <div className="main-container">
-
             {!showResult
             ?<>
             <div className="greet">
@@ -34,19 +28,19 @@ const Main = () => {
                 <p>How can I help you ?</p>
             </div>
             <div className="cards">
-                <div className="card" onClick={() => handleCardClick('Suggest beautiful places to see on an upcoming trip to Turkey.')}>
+                <div className="card" >
                     <p>Suggest beautiful places to see on an upcoming trip to Turkey.</p>
                     <img src={assets.compass_icon} alt="" />  
                 </div>
-                <div className="card" onClick={() => handleCardClick('Briefly summarize the four pillars of Object Oriented Programming.')}>
+                <div className="card" >
                     <p>Briefly summarize the four pillars of Object Oriented Programming.</p>
                     <img src={assets.bulb_icon} alt="" />
                 </div>
-                <div className="card" onClick={() => handleCardClick('Suggest team bonding activities for our work retreat.')}>
+                <div className="card" >
                     <p>Suggest team bonding activities for our work retreat.</p>
                     <img src={assets.message_icon} alt="" />
                 </div>
-                <div className="card" onClick={() => handleCardClick('What is the full form of PDF ?')}>
+                <div className="card" >
                     <p>What is the full form of PDF ?</p>
                     <img src={assets.code_icon} alt="" />
                 </div>
@@ -59,26 +53,13 @@ const Main = () => {
                 </div>
                 <div className="result-data">
                     <img src={assets.gemini_icon} alt="" />
-                    {loading
-                    ?<div className='loader'>
-                        <hr />
-                        <hr />
-                        <hr />
-                        <hr />
-                        <hr />
-                    </div>
-                    :<p dangerouslySetInnerHTML={{__html:resultData}}></p>
-                    }
-                    
+                    <p dangerouslySetInnerHTML={{__html:resultData}}></p>
                 </div>
             </div>
             }
 
-            
             <div className="main-bottom">
                 <div className="search-box">
-                {/* onChange event handler updates the input state with the 
-                current value of the input field whenever the user types  */}
                 <input
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -87,7 +68,7 @@ const Main = () => {
               placeholder='Enter a prompt here'
             />
                     <div>
-                        {input?<img onClick={()=>onSent()} src={assets.send_icon} alt="" />:null}
+                        <img onClick={()=>onSent(input)} src={assets.send_icon} alt="" />
                     </div>
                 </div>
                 <p className="bottom-info">
